@@ -56,18 +56,18 @@ router.get('/', async (req, res) => {
     }
   });
   
-  router.post('/', async (req, res) => {
-    try {
-      const post = await Posts.add(req.body);
-      res.status(201).json(post);
-    } catch (error) {
-      // log error to database
-      console.log(error);
-      res.status(500).json({
-        message: 'Error adding the post',
-      });
-    }
-  });
+  // router.post('/', async (req, res) => {
+  //   try {
+  //     const post = await Posts.add(req.body);
+  //     res.status(201).json(post);
+  //   } catch (error) {
+  //     // log error to database
+  //     console.log(error);
+  //     res.status(500).json({
+  //       message: 'Error adding the post',
+  //     });
+  //   }
+  // });
   
   router.delete('/:id', async (req, res) => {
     try {
@@ -104,18 +104,37 @@ router.get('/', async (req, res) => {
     }
   });
   
-  router.post('/:id/posts', async (req, res) => {
-      const postInfo = { ...req.body, post_id: req.params.id }
-      try {
-          const post = await Posts.addPost(postInfo)
-          res.status(201).json(post)
-      } catch(error) {
-          console.log(error)
-          res.status(500).json({
-              message: 'Errrrroorrrrrrrr'
-          })
+
+  router.post("/", async (req, res) => {
+    console.log("post", req.body);
+    try {
+      const postData = req.body;
+      const postId = await Posts.insert(postData);
+      const post = await Posts.findById(postId.id);
+      res.status(201).json(post);
+    } catch (error) {
+      let message = "There was an error while saving the post to the database";
+  
+      if (error.errno === 19) {
+        message = "please provide both the title and the contents";
       }
-  })
+      res.status(500).json({ message: message, error });
+    }
+  });
+  // router.post('/:id/posts', async (req, res) => {
+  //   // const named postBody = req.body
+  //     const postInfo = { ...req.body, post_id: req.params.id }
+  //     try {
+  //         const post = await Posts.addPost(postInfo)
+  //         res.status(201).json(post)
+  //     } catch(error) {
+  //           // log error to database
+  //         console.log(error)
+  //         res.status(500).json({
+  //             message: 'Errrrroorrrrrrrr'
+  //         })
+  //     }
+  // })
         
 
 

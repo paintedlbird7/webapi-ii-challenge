@@ -9,7 +9,7 @@ server.use(express.json());
 server.use('/api/posts', postsRouter) 
 // Delegates requests to /api/posts to the router.
 
-const Posts = require('./posts/posts-model.js');
+// const Posts = require('./posts/posts-model.js');
 
 
 server.get('/', (req, res) => {
