@@ -45,7 +45,7 @@ router.get('/', async (req, res) => {
       if (posts.length > 0) {
         res.status(200).json(posts);
       } else {
-        res.status(404).json({ post: 'No messages for this post' });
+        res.status(404).json({ message: 'No messages for this post' });
       }
     } catch (error) {
       // log error to database
@@ -87,7 +87,7 @@ router.get('/', async (req, res) => {
   });
   
   router.put('/:id', async (req, res) => {
-    const changes = req.body;
+    // const changes = req.body;
     try {
       const post = await Posts.update(req.params.id, req.body);
       if (post) {
@@ -104,18 +104,18 @@ router.get('/', async (req, res) => {
     }
   });
   
-  // server.post('/:id/posts', async (req, res) => {
-  //     const postInfo = { ...req.body, post_id: req.params.id }
-  //     try {
-  //         const post = await Posts.addPost(postInfo)
-  //         res.status(201).json(message)
-  //     } catch(error) {
-  //         console.log(error)
-  //         res.status(500).json({
-  //             message: 'Errrrroorrrrrrrr'
-  //         })
-  //     }
-  // })
+  router.post('/:id/posts', async (req, res) => {
+      const postInfo = { ...req.body, post_id: req.params.id }
+      try {
+          const post = await Posts.addPost(postInfo)
+          res.status(201).json(post)
+      } catch(error) {
+          console.log(error)
+          res.status(500).json({
+              message: 'Errrrroorrrrrrrr'
+          })
+      }
+  })
         
 
 
