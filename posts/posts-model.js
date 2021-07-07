@@ -1,5 +1,5 @@
 const knex = require('knex');
-const knexConfig = require('../knexfile.js');
+const knexConfig = require('../knexfile');
 const db = knex(knexConfig.development);
 
 module.exports = {
@@ -9,6 +9,18 @@ module.exports = {
   update,
   remove,
 };
+
+// function find(query) {
+//   const { page = 1, limit = 2, sortby = 'id', sortdir = 'asc' } = query;
+//   const offset = limit * (page - 1);
+
+//   let rows = db('posts')
+//     .orderBy(sortby, sortdir)
+//     .limit(limit)
+//     .offset(offset);
+
+//   return rows;
+// }
 
 function find() {
   return db('posts');
